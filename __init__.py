@@ -16,29 +16,62 @@ Requires ``mmx`` CLI installed and authenticated:
     uv tool install mmx-cli            # or: npm install -g mmx-cli
     mmx auth login                     # or: export MINIMAX_API_KEY=...
 
-This plugin does NOT modify or override existing tools — it adds new
-provider slots and tools so prompt caching stays intact. Users opt in
-by setting ``provider: "mmx"`` in ``config.yaml`` (or just relying on
-the new tools appearing).
-
-Note on module layout: the providers live at the plugin root (not in a
-sub-package). Putting them under ``providers/`` would collide with
-hermes-agent's own ``providers/`` package on import; ``mmx_backends/``
-worked when sub-modules were imported directly, but the plugin loader
-imports only this ``__init__.py``, so a sub-package would never be on
-``sys.path``. Flat layout matches the bundled ``plugins/spotify``
-convention.
+Plugin layout note: the Hermes plugin loader imports ``__init__.py`` as
+a single-file module via ``spec_from_file_location`` — it does NOT add
+the plugin directory to ``sys.path``, so we cannot import sibling files
+by their bare names. We use ``spec_from_file_location`` ourselves to
+load the sibling modules explicitly. (Sub-package layouts like
+``providers/`` collide with hermes-agent's own ``providers/`` package,
+and the relative-import path ``from ._mmx_runner import …`` fails
+because the loader's spec doesn't expose ``__path__`` correctly for
+this use case.)
 """
 
 from __future__ import annotations
 
-from _mmx_runner import is_mmx_available, parse_mmx_json, run_mmx  # noqa: F401  (re-exported)
-from image_gen import MMXImageGenProvider
-from music_tool import MMX_MUSIC_GENERATE_SCHEMA, _handle_mmx_music_generate
-from tts import MMXTTSProvider
-from video_gen import MMXVideoGenProvider
-from vision_tool import MMX_VISION_DESCRIBE_SCHEMA, _handle_mmx_vision_describe
-from web_search import MMXWebSearchProvider
+import importlib.util
+import sys
+from pathlib import Path
+
+_PLUGIN_DIR = Path(__file__).resolve().parent
+
+
+def _load(name: str):
+    """Load a sibling module file by name.
+
+    Uses ``spec_from_file_location`` so we don't depend on ``sys.path``
+    or ``__path__`` being set correctly by the plugin loader. Returns
+    the loaded module.
+    """
+    spec = importlib.util.spec_from_file_location(
+        name, _PLUGIN_DIR / f"{name}.py"
+    )
+    if spec is None or spec.loader is None:
+        raise ImportError(f"Cannot load sibling module {name}")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[f"{__name__}.{name}"] = module  # cache under our name
+    spec.loader.exec_module(module)
+    return module
+
+
+# Load all sibling modules up front. Order matters only for ``_mmx_runner``
+# which the providers import.
+_mmx_runner = _load("_mmx_runner")
+_image_gen_mod = _load("image_gen")
+_video_gen_mod = _load("video_gen")
+_tts_mod = _load("tts")
+_web_search_mod = _load("web_search")
+_music_tool_mod = _load("music_tool")
+_vision_tool_mod = _load("vision_tool")
+
+MMXImageGenProvider = _image_gen_mod.MMXImageGenProvider
+MMXVideoGenProvider = _video_gen_mod.MMXVideoGenProvider
+MMXTTSProvider = _tts_mod.MMXTTSProvider
+MMXWebSearchProvider = _web_search_mod.MMXWebSearchProvider
+MMX_MUSIC_GENERATE_SCHEMA = _music_tool_mod.MMX_MUSIC_GENERATE_SCHEMA
+_handle_mmx_music_generate = _music_tool_mod._handle_mmx_music_generate
+MMX_VISION_DESCRIBE_SCHEMA = _vision_tool_mod.MMX_VISION_DESCRIBE_SCHEMA
+_handle_mmx_vision_describe = _vision_tool_mod._handle_mmx_vision_describe
 
 
 def register(ctx) -> None:
