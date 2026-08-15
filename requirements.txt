@@ -1,0 +1,15 @@
+# This plugin shells out to the ``mmx`` CLI. It does NOT bundle mmx or
+# its Python SDK — install mmx separately:
+#
+#     uv tool install mmx-cli            # recommended (uv)
+#     # or
+#     npm install -g mmx-cli            # via Node
+#
+# Authentication (one of):
+#     mmx auth login                     # interactive OAuth
+#     export MINIMAX_API_KEY=sk-xxxxx    # env var fallback
+#
+# No third-party Python packages are required by this plugin itself —
+# the ``requirements.txt`` exists so ``pip install -r requirements.txt``
+# on the plugin directory (hermes plugins install does NOT auto-install
+# deps — see hermes-agent docs on plugin dependency management).

@@ -1,0 +1,26 @@
+name: hermes-mmx-backend
+version: 0.1.0
+description: "mmx (MiniMax CLI) backends for Hermes Agent — provides web search, image gen, video gen, TTS, music gen, and image vision providers. Wraps the `mmx` CLI; mmx-cli must be installed (`npm install -g mmx-cli` or `uv tool install mmx-cli`) and authenticated (`mmx auth login` or `MINIMAX_API_KEY` env var) before providers become available."
+author: joyous-coder
+license: MIT
+kind: backend
+# This plugin only registers *providers*. It does not add tools.
+# Selection in config.yaml:
+#   web:        search_backend: "mmx"
+#   image_gen:  provider:      "mmx"
+#   video_gen:  provider:      "mmx"
+#   tts:        provider:      "mmx"
+#   music:      provider:      "mmx"
+#   vision:     provider:      "mmx"
+provides_web_providers:
+  - mmx
+requires_env: []
+optional_env:
+  - name: MINIMAX_API_KEY
+    description: "API key for MiniMax platform (alternative to `mmx auth login`)."
+    prompt: "MiniMax API key (or leave empty to use `mmx auth login` credentials)"
+    password: true
+  - name: MINIMAX_REGION
+    description: "Override region detection ('cn' or 'global'). Leave empty to auto-detect."
+    prompt: "MiniMax region (cn/global, empty for auto-detect)"
+    password: false
