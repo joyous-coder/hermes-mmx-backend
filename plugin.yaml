@@ -14,6 +14,9 @@ kind: backend
 #   vision:     provider:      "mmx"
 provides_web_providers:
   - mmx
+provides_tools:
+  - mmx_music_generate
+  - mmx_vision_describe
 requires_env: []
 optional_env:
   - name: MINIMAX_API_KEY
