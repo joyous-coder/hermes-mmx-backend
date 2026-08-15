@@ -27,7 +27,7 @@ from agent.video_gen_provider import (
     error_response,
 )
 
-from ._mmx_runner import is_mmx_available, parse_mmx_json, run_mmx
+from _mmx_runner import is_mmx_available, parse_mmx_json, run_mmx
 
 logger = logging.getLogger(__name__)
 

@@ -18,7 +18,7 @@ from typing import Any, Dict
 
 from tools.registry import tool_error, tool_result
 
-from ._mmx_runner import is_mmx_available, run_mmx
+from _mmx_runner import is_mmx_available, run_mmx
 
 logger = logging.getLogger(__name__)
 

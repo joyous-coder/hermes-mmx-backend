@@ -20,7 +20,7 @@ from typing import Any, Dict
 
 from agent.web_search_provider import WebSearchProvider
 
-from ._mmx_runner import is_mmx_available, parse_mmx_json, run_mmx
+from _mmx_runner import is_mmx_available, parse_mmx_json, run_mmx
 
 logger = logging.getLogger(__name__)
 

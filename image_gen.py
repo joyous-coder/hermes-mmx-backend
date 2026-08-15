@@ -30,7 +30,7 @@ from agent.image_gen_provider import (
 )
 from agent.secret_scope import get_secret
 
-from ._mmx_runner import is_mmx_available, run_mmx
+from _mmx_runner import is_mmx_available, run_mmx
 
 logger = logging.getLogger(__name__)
 

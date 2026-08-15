@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from unittest import mock
 
-from mmx_backends import vision_tool as vt_module
+import vision_tool as vt_module
 
 
 class TestVisionDescribeSchema:

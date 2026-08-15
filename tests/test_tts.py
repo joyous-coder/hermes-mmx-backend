@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 from unittest import mock
 
-from mmx_backends import tts as tts_module
+import tts as tts_module
 
 
 class TestMMXTTSProvider:

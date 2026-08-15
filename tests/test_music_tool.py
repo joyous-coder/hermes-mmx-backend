@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from unittest import mock
 
-from mmx_backends import music_tool as mt_module
+import music_tool as mt_module
 
 
 class TestMusicGenerateSchema:
