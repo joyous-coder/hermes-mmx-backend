@@ -78,6 +78,33 @@ tts:
 Music and vision come in as **standalone tools**; you don't configure
 anything to use them, just call them.
 
+## TTS configuration (voice selection)
+
+`text_to_speech` does NOT expose `voice` as a tool parameter (by design
+— voice is user-configured, not model-selected). To pin a voice for
+every TTS call, set the voice under the provider-specific `tts.<name>`
+section in `config.yaml`:
+
+```yaml
+tts:
+  provider: mmx
+  use_gateway: false
+  mmx:                           # keys here feed MMXTTSProvider.synthesize()
+    voice: Chinese (Mandarin)_Warm_Bestie   # default if unset: English_expressive_narrator
+```
+
+Only `voice` needs to be set — other parameters (`model`, `speed`,
+`format`, `volume`, `pitch`, `language`, `subtitles`, `pronunciation`)
+fall back to mmx-cli defaults or to the plugin's hardcoded defaults
+(`speech-2.8-hd`, `speed=1.0`). To discover voices, see the
+[MiniMax speech docs](https://platform.minimaxi.com/docs/api-reference/speech-t2a-http)
+(`voice_id` list — examples: `English_expressive_narrator`,
+`English_radiant_girl`, `male-qn-qingse`, `Chinese (Mandarin)_Warm_Bestie`).
+
+If you need per-call voice switching at the model level, register a
+custom tool that bypasses the built-in `text_to_speech` and shells out
+to `mmx speech synthesize` directly with whatever parameters you need.
+
 ## Tool signatures
 
 ### `mmx_music_generate`
@@ -117,11 +144,23 @@ anything to use them, just call them.
   `image-01` model. The provider will return a clear
   `capability_not_supported` error if asked. Switch
   `image_gen.provider: "openai"` for that capability.
-- **TTS model choice** — the built-in `minimax` provider and this `mmx`
-  provider both call the same MiniMax API, but via different transport
-  (HTTP vs `mmx speech synthesize` subprocess). Built-in always wins at
-  dispatch time, so setting `tts.provider: "mmx"` only takes effect if
-  no built-in `minimax` or `tts.providers.mmx` block is configured.
+- **TTS plugin vs built-in minimax provider** — both call the same
+  MiniMax speech API, but via different transports (HTTP vs the
+  `mmx speech synthesize` subprocess). The dispatcher
+  (`_dispatch_to_plugin_provider` in `tools/tts_tool.py`) only routes
+  to this plugin when `tts.provider` matches a registered plugin name
+  (here: `mmx`). If you also set `tts.providers.mmx: type: command`
+  (PR #17843), the command-type provider wins over the plugin.
+
+## Voice selection in the dispatcher
+
+The built-in `text_to_speech` tool does **not** accept `voice` as a
+parameter — voice is intentionally user-configured, not model-selected.
+Set it once in `config.yaml` under `tts.mmx.voice` and every TTS call
+goes through that voice. Per-call voice switching at the model level
+requires a separate tool that bypasses the dispatcher; the plugin does
+not register one by default (use `mmx_music_generate` / `mmx_vision_describe`
+for the music/vision analog).
 
 ## Development
 
