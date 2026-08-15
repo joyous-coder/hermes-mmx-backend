@@ -11,7 +11,7 @@ provider can't reach the API for some reason.
 
 Built-in providers always win at dispatch time, so setting
 ``tts.provider: "mmx"`` will only route here if no built-in ``minimax``
-or command-type ``tts.providers.mmx`` block is active.
+or command-type ``tts.mmx_backends.mmx`` block is active.
 """
 
 from __future__ import annotations

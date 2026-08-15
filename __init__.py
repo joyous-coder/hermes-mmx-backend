@@ -24,12 +24,12 @@ the new tools appearing).
 
 from __future__ import annotations
 
-from providers.image_gen import MMXImageGenProvider
-from providers.music_tool import MMX_MUSIC_GENERATE_SCHEMA, _handle_mmx_music_generate
-from providers.tts import MMXTTSProvider
-from providers.video_gen import MMXVideoGenProvider
-from providers.vision_tool import MMX_VISION_DESCRIBE_SCHEMA, _handle_mmx_vision_describe
-from providers.web_search import MMXWebSearchProvider
+from mmx_backends.image_gen import MMXImageGenProvider
+from mmx_backends.music_tool import MMX_MUSIC_GENERATE_SCHEMA, _handle_mmx_music_generate
+from mmx_backends.tts import MMXTTSProvider
+from mmx_backends.video_gen import MMXVideoGenProvider
+from mmx_backends.vision_tool import MMX_VISION_DESCRIBE_SCHEMA, _handle_mmx_vision_describe
+from mmx_backends.web_search import MMXWebSearchProvider
 
 
 def register(ctx) -> None:

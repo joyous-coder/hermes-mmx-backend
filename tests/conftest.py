@@ -33,7 +33,7 @@ def mmx_available(monkeypatch):
     """
     from unittest import mock
 
-    from providers import _mmx_runner
+    from mmx_backends import _mmx_runner
 
     monkeypatch.setattr(_mmx_runner.shutil, "which", lambda _: "/usr/bin/mmx")
     cp = subprocess.CompletedProcess(
@@ -48,7 +48,7 @@ def mmx_available(monkeypatch):
 @pytest.fixture
 def mmx_missing(monkeypatch):
     """Patch mmx CLI to appear absent (``shutil.which`` returns None)."""
-    from providers import _mmx_runner
+    from mmx_backends import _mmx_runner
 
     monkeypatch.setattr(_mmx_runner.shutil, "which", lambda _: None)
     return _mmx_runner

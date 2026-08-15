@@ -7,7 +7,7 @@ import types
 from pathlib import Path
 from unittest import mock
 
-from providers import video_gen as vg_module
+from mmx_backends import video_gen as vg_module
 
 
 class TestMMXVideoGenProvider:

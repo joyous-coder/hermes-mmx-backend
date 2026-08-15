@@ -1,4 +1,4 @@
-"""Shared helpers for mmx backend providers.
+"""Shared helpers for mmx backend mmx_backends.
 
 Every mmx provider shells out to the ``mmx`` CLI rather than using the
 MiniMax Python SDK directly. Rationale:

@@ -10,7 +10,7 @@ import types
 from pathlib import Path
 from unittest import mock
 
-from providers import image_gen as ig_module
+from mmx_backends import image_gen as ig_module
 
 
 class TestImageGenProviderBasics:

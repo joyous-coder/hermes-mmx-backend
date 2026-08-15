@@ -8,8 +8,8 @@ from __future__ import annotations
 import json
 from unittest import mock
 
-from providers import _mmx_runner
-from providers import web_search as ws_module
+from mmx_backends import _mmx_runner
+from mmx_backends import web_search as ws_module
 
 
 class _StubSubprocessResult:

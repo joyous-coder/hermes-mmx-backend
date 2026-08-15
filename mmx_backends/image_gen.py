@@ -84,7 +84,7 @@ class MMXImageGenProvider(ImageGenProvider):
     ) -> Dict[str, Any]:
         """Generate an image. mmx image-01 does not support image-to-image;
         if ``image_url`` is supplied we route to the OpenAI backend by
-        returning a clean error so the caller can switch providers.
+        returning a clean error so the caller can switch mmx_backends.
         """
         # mmx image-01 is text-only — surface a clear error rather than
         # silently ignoring the source image.
