@@ -11,7 +11,7 @@ provider can't reach the API for some reason.
 
 Built-in providers always win at dispatch time, so setting
 ``tts.provider: "mmx"`` will only route here if no built-in ``minimax``
-or command-type ``tts.mmx_backends.mmx`` block is active.
+or command-type ``tts.providers.mmx`` block is active.
 """
 
 from __future__ import annotations
@@ -30,6 +30,9 @@ from _mmx_runner import is_mmx_available, run_mmx
 logger = logging.getLogger(__name__)
 
 
+# Path to a debug log written by every synthesize() call. Useful when
+# "the config isn't taking effect" — check this file to see what voice
+# the dispatcher actually passed us.
 class MMXTTSProvider(TTSProvider):
     """mmx-cli speech synthesize backend."""
 

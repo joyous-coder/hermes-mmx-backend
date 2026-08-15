@@ -82,16 +82,22 @@ anything to use them, just call them.
 
 `text_to_speech` does NOT expose `voice` as a tool parameter (by design
 — voice is user-configured, not model-selected). To pin a voice for
-every TTS call, set the voice under the provider-specific `tts.<name>`
-section in `config.yaml`:
+every TTS call, set it as a **top-level flat key** under `tts` in
+`config.yaml`:
 
 ```yaml
 tts:
   provider: mmx
   use_gateway: false
-  mmx:                           # keys here feed MMXTTSProvider.synthesize()
-    voice: Chinese (Mandarin)_Warm_Bestie   # default if unset: English_expressive_narrator
+  voice: Chinese (Mandarin)_Warm_Bestie   # flat top-level key
 ```
+
+**Important**: the dispatcher reads `tts_config.get("voice")` only at
+the top level. Neither `tts.mmx.voice` nor `tts.providers.mmx.voice`
+is honored — those are silently ignored. To verify your config is
+being read, add a debug print in this plugin's `synthesize()` and call
+`text_to_speech` from a chat session; the printed `voice` argument
+must equal your config value.
 
 Only `voice` needs to be set — other parameters (`model`, `speed`,
 `format`, `volume`, `pitch`, `language`, `subtitles`, `pronunciation`)
