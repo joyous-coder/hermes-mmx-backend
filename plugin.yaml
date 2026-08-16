@@ -1,6 +1,6 @@
 name: hermes-mmx-backend
-version: 0.1.0
-description: "mmx (MiniMax CLI) backends for Hermes Agent — provides web search, image gen, video gen, TTS, music gen, and image vision providers. Wraps the `mmx` CLI; mmx-cli must be installed (`npm install -g mmx-cli` or `uv tool install mmx-cli`) and authenticated (`mmx auth login` or `MINIMAX_API_KEY` env var) before providers become available."
+version: 0.1.1
+description: "mmx (MiniMax CLI) backends for Hermes Agent — provides web search, image gen, video gen, TTS, and music gen providers. Wraps the `mmx` CLI; mmx-cli must be installed (`npm install -g mmx-cli` or `uv tool install mmx-cli`) and authenticated (`mmx auth login` or `MINIMAX_API_KEY` env var) before providers become available."
 author: joyous-coder
 license: MIT
 kind: backend
@@ -11,12 +11,10 @@ kind: backend
 #   video_gen:  provider:      "mmx"
 #   tts:        provider:      "mmx"
 #   music:      provider:      "mmx"
-#   vision:     provider:      "mmx"
 provides_web_providers:
   - mmx
 provides_tools:
   - mmx_music_generate
-  - mmx_vision_describe
 requires_env: []
 optional_env:
   - name: MINIMAX_API_KEY

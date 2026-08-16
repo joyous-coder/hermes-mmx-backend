@@ -17,7 +17,6 @@ generation, TTS, and image-understanding.
 | Video generation | `video_gen.provider: "mmx"` in `config.yaml` |
 | Text-to-speech | `tts.provider: "mmx"` in `config.yaml` |
 | Music generation | new tool `mmx_music_generate` (auto-registered) |
-| Image understanding | new tool `mmx_vision_describe` (auto-registered) |
 
 ## Why a plugin instead of changing core tools?
 
@@ -57,8 +56,7 @@ hermes plugins install joyous-coder/hermes-mmx-backend --ref <40-char-sha>
 
 After install the new provider slots are visible in `hermes tools`
 (Web Search / Image Generation / Video Generation / TTS picker rows),
-and the new tools `mmx_music_generate` / `mmx_vision_describe` show up
-in `hermes tools list`.
+and the new tool `mmx_music_generate` shows up in `hermes tools list`.
 
 ## Configure
 
@@ -75,8 +73,8 @@ tts:
   provider: "mmx"                  # route text_to_speech through mmx speech synthesize
 ```
 
-Music and vision come in as **standalone tools**; you don't configure
-anything to use them, just call them.
+Music comes in as a **standalone tool**; you don't configure anything
+to use it, just call it.
 
 ## TTS configuration (voice selection)
 
@@ -132,15 +130,6 @@ to `mmx speech synthesize` directly with whatever parameters you need.
   "structure":     "verse-chorus-verse-bridge-chorus",
   "references":    "similar to Ed Sheeran",
   "lyrics_optimizer": false
-}
-```
-
-### `mmx_vision_describe`
-
-```json
-{
-  "image":  "C:/path/to/image.jpg",   // local path OR http(s) URL
-  "prompt": "What is in this image?"  // default: "Describe the image."
 }
 ```
 

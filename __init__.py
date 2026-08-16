@@ -40,7 +40,6 @@ _video_gen_mod = _load("video_gen")
 _tts_mod = _load("tts")
 _web_search_mod = _load("web_search")
 _music_tool_mod = _load("music_tool")
-_vision_tool_mod = _load("vision_tool")
 
 MMXImageGenProvider = _image_gen_mod.MMXImageGenProvider
 MMXVideoGenProvider = _video_gen_mod.MMXVideoGenProvider
@@ -48,8 +47,6 @@ MMXTTSProvider = _tts_mod.MMXTTSProvider
 MMXWebSearchProvider = _web_search_mod.MMXWebSearchProvider
 MMX_MUSIC_GENERATE_SCHEMA = _music_tool_mod.MMX_MUSIC_GENERATE_SCHEMA
 _handle_mmx_music_generate = _music_tool_mod._handle_mmx_music_generate
-MMX_VISION_DESCRIBE_SCHEMA = _vision_tool_mod.MMX_VISION_DESCRIBE_SCHEMA
-_handle_mmx_vision_describe = _vision_tool_mod._handle_mmx_vision_describe
 
 
 def register(ctx) -> None:
@@ -65,11 +62,4 @@ def register(ctx) -> None:
         schema=MMX_MUSIC_GENERATE_SCHEMA,
         handler=_handle_mmx_music_generate,
         emoji="🎶",
-    )
-    ctx.register_tool(
-        name="mmx_vision_describe",
-        toolset="mmx",
-        schema=MMX_VISION_DESCRIBE_SCHEMA,
-        handler=_handle_mmx_vision_describe,
-        emoji="🔍",
     )
